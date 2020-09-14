@@ -1,0 +1,10 @@
+# Webstorm
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Node.js
+node_modules
