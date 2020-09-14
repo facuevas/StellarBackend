@@ -3,6 +3,8 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+const cors = require('cors');
+const helmet = require('helmet');
 
 let metricsRouter = require('./routes/metrics');
 let reportRouter = require('./routes/report');
@@ -12,6 +14,10 @@ let app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// Middleware
+app.use(cors());
+app.use(helmet());
 
 app.use(logger('dev'));
 app.use(express.json());
