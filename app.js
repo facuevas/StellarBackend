@@ -6,6 +6,7 @@ let logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
+let feedbackRouter = require('./routes/feedback');
 let metricsRouter = require('./routes/metrics');
 let reportRouter = require('./routes/report');
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/feedback', feedbackRouter);
 app.use('/metrics', metricsRouter);
 app.use('/report', reportRouter);
 
