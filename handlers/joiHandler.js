@@ -13,13 +13,13 @@ const Joi = require('joi');
  */
 module.exports.validate = function validate(res, body, schema) {
     const result = schema.validate(body);
-    const { error } = result;
+    const {error} = result;
     if (error === undefined) {
         return true;
     }
 
     console.log(result.error);
-    const { details } = error;
+    const {details} = error;
     const errors = [];
 
     for (let index = 0; index < details.length; index += 1) {
