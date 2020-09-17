@@ -1,16 +1,16 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
-let feedbackRouter = require('./routes/feedback');
-let metricsRouter = require('./routes/metrics');
-let reportRouter = require('./routes/report');
+const feedbackRouter = require('./routes/feedback');
+const metricsRouter = require('./routes/metrics');
+const reportRouter = require('./routes/report');
 
-let app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
