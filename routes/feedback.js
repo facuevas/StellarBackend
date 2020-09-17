@@ -1,5 +1,5 @@
-let express = require('express');
-let router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 const Joi = require('joi');
 const joiHandler = require('../handlers/joiHandler');
@@ -11,7 +11,7 @@ const feedbackSchema = Joi.object().keys({
     feedback: Joi.string().required(),
 }).options({abortEarly: false});
 
-router.post('/', function (req, res, next) {
+router.get('/', function (req, res, next) {
     if (!joiHandler.validate(res, req.body, feedbackSchema)) return;
 
     const {uuid, feedback} = req.body;
