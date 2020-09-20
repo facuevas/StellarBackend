@@ -13,12 +13,12 @@ const metricSchema = Joi.object().keys({
     time: Joi.number().required(),
 }).options({abortEarly: false});
 
-router.post('/', function (req, res, next) {
+router.post('/', () => (req, res, next) {
     if (!joiHandler.validate(res, req.body, metricSchema)) return;
 
     const {uuid, time} = req.body;
 
-    const callback = function (error, results, fields) {
+    const callback = () => (error, results, fields) {
         if (error) {
             return res.status(400).json({
                 message: 'Failed to log metric.',
