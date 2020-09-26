@@ -13,7 +13,7 @@ const metricSchema = Joi.object().keys({
     time: Joi.number().required(),
 }).options({abortEarly: false});
 
-router.post('/', function (req, res, next) {
+router.post('/add',  (req, res) => {
     if (!joiHandler.validate(res, req.body, metricSchema)) return;
 
     const {uuid, time} = req.body;
