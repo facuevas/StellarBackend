@@ -17,7 +17,7 @@ router.post('/add', (req, res) => {
 
     const { uuid, feedback } = req.body;
 
-    pool.query('INSERT INTO feedback (uuid, feedback) VALUES(?, ?)', [uuid, feedback], function (error) {
+    pool.query('INSERT INTO feedback (uuid, feedback) VALUES(?, ?)', [uuid, feedback], (error) => {
         if (error) {
             return res.status(400).json({
                 message: 'Failed to log feedback.',
@@ -30,19 +30,47 @@ router.post('/add', (req, res) => {
     });
 });
 
-// Returns all feedback objects from the database.
+// Returns all feedback results from the feedback table.
 router.get('/', (_, res) => {
-
-    pool.query('SELECT * FROM feedback', (error, result) => {
+    pool.query('SELECT * FROM feedback', (error, results) => {
         if (error) {
             return res.status(400).json({
                 message: 'Failed to get all created feedback.',
                 error: error.message
             });
         }
-        return res.status(200).json(result);
+        return res.status(200).json(results);
     });
+});
 
+// Get one feedback result from the feedback table based on the id
+router.get('/:uuid', (req, res) => {
+    const { uuid } = req.params;
+    pool.query('SELECT * FROM feedback WHERE uuid = ?', [uuid], (error, results) => {
+        if (error) {
+            return res.status(400).json({
+                message: `ID ${uuid} was not found.`,
+                error: error.message
+            });
+        }
+        return res.status(200).json(results);
+    });
+});
+
+// Delete a feedback result based on the id.
+router.delete('/:uuid', (req, res) => {
+    const { uuid } = req.params;
+    pool.query('DELETE FROM feedback WHERE uuid = ?', [uuid], (error, results, fields) => {
+        if (error) {
+            return res.status(400).json({
+                message: `ID ${uuid} was not found.`,
+                error: error.message
+            });
+        }
+        return res.status(200).json({
+            message: "Feedback successfully deleted."
+        });
+    });
 });
 
 module.exports = router;
