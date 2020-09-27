@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 /**
  * Validates a schema with Joi.
@@ -12,25 +12,25 @@ const Joi = require('joi');
  * @returns true if there are no errors, false if there are errors
  */
 module.exports.validate = function validate(res, body, schema) {
-    const result = schema.validate(body);
-    const {error} = result;
-    if (error === undefined) {
-        return true;
-    }
+  const result = schema.validate(body);
+  const { error } = result;
+  if (error === undefined) {
+    return true;
+  }
 
-    console.log(result.error);
-    const {details} = error;
-    const errors = [];
+  console.log(result.error);
+  const { details } = error;
+  const errors = [];
 
-    for (let index = 0; index < details.length; index += 1) {
-        errors.push(`${details[index].context.key}: ${details[index].message}`);
-    }
+  for (let index = 0; index < details.length; index += 1) {
+    errors.push(`${details[index].context.key}: ${details[index].message}`);
+  }
 
-    res.status(422).json({
-        status: 422,
-        message: 'Bad request.',
-        errors,
-    });
+  res.status(422).json({
+    status: 422,
+    message: "Bad request.",
+    errors,
+  });
 
-    return false;
+  return false;
 };

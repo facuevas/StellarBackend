@@ -4,16 +4,16 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('stellarbackend:server');
-const fs = require('fs');
+var app = require("../app");
+var debug = require("debug")("stellarbackend:server");
+const fs = require("fs");
 
 /**
  * Get port from environment and store in Express.
  */
 
 const PORT = 3000;
-app.set('port', PORT);
+app.set("port", PORT);
 
 /**
  * Create HTTP server.
@@ -22,52 +22,49 @@ app.set('port', PORT);
 let server;
 
 if (process.env.STELLAR_SSL === undefined) {
-  console.log("Using non-secured HTTP.")
-  server = require('http').createServer(app);
+  console.log("Using non-secured HTTP.");
+  server = require("http").createServer(app);
 } else {
-  console.log("Using secured HTTPS protocol.")
-  const homedir = require('os').homedir();
+  console.log("Using secured HTTPS protocol.");
+  const homedir = require("os").homedir();
   let options = {
     // key: fs.readFileSync(homedir + '/keys/acio.dev.key'),
     // cert: fs.readFileSync(homedir + '/keys/keycertchain.crt')
-    key: fs.readFileSync(homedir + '/ssl/privkey.pem'),
-    cert: fs.readFileSync(homedir + '/ssl/fullchain.pem'),
-    ca: fs.readFileSync(homedir + '/ssl/chain.pem'),
+    key: fs.readFileSync(homedir + "/ssl/privkey.pem"),
+    cert: fs.readFileSync(homedir + "/ssl/fullchain.pem"),
+    ca: fs.readFileSync(homedir + "/ssl/chain.pem"),
   };
 
-  server = require('https').createServer(options, app);
+  server = require("https").createServer(options, app);
 }
-
 
 /**
  * Sets up the server
  */
 
 server.listen(PORT);
-server.on('error', onError);
-server.on('listening', onListening);
+server.on("error", onError);
+server.on("listening", onListening);
 
 /**
  * Event listener for HTTP server "error" event.
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
+  if (error.syscall !== "listen") {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
       process.exit(1);
       break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
       process.exit(1);
       break;
     default:
@@ -81,8 +78,6 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
 }
