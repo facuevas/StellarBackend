@@ -46,4 +46,16 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Sequelize ORM connection and init
+const sequelize = require('./handlers/dbHandler');
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully');
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database: ', error);
+  })
+
 module.exports = app;
