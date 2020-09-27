@@ -72,31 +72,26 @@ router.get("/:uuid", (req, res) => {
 // Delete a feedback result based on the id.
 router.delete("/:uuid", (req, res) => {
   const { uuid } = req.params;
-  pool.query(
-    "DELETE FROM feedback WHERE uuid = ?",
-    [uuid],
-    (error, results, fields) => {
-      if (error) {
-        return res.status(400).json({
-          message: `ID ${uuid} was not found.`,
-          error: error.message,
-        });
-      }
-      return res.status(200).json({
-        message: "Feedback successfully deleted.",
+  pool.query("DELETE FROM feedback WHERE uuid = ?", [uuid], (error) => {
+    if (error) {
+      return res.status(400).json({
+        message: `ID ${uuid} was not found.`,
+        error: error.message,
       });
     }
-  );
+    return res.status(200).json({
+      message: "Feedback successfully deleted.",
+    });
+  });
 });
 
-router.put("/edit/:uuid", (req, res) => {
-  const { uuid } = req.params;
-  const { feedback } = req.body;
-  console.log(feedback);
+router.put("/edit", (req, res) => {
+  if (!joiHandler.validate(res, req.body, feedbackSchema)) return;
+  const { feedback, uuid } = req.body;
   pool.query(
     "UPDATE feedback SET feedback=? WHERE uuid = ?",
     [feedback, uuid],
-    (error, results, fields) => {
+    (error) => {
       if (error) {
         return res.status(400).json({
           message: `ID ${uuid} was not found.`,
