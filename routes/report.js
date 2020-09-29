@@ -98,7 +98,7 @@ router.delete("/:uuid", (req, res) => {
 // A possible fix is to query the uuid first, store the results, and then pass the values
 // that weren't edited to the query.
 router.put("/edit", (req, res) => {
-  //if (!joiHandler.validate(res, req.body, reportSchema)) return;
+  if (!joiHandler.validate(res, req.body, reportSchema)) return;
   const { uuid, fullName, errorCode, errorComment } = req.body;
   pool.query(
     "UPDATE report SET fullName=?, errorCode=?, errorComment=? WHERE uuid = ?",
